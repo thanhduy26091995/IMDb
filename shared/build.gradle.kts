@@ -4,13 +4,15 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+            jvmTarget.set(JvmTarget.JVM_17)
         }
     }
 
@@ -30,12 +32,19 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // put your Multiplatform dependencies here
+            // DI
             implementation(libs.koin.core)
-            implementation(libs.ktor.client.core)
+
+            // Networking
+            implementation(libs.bundles.ktor)
+
+            // Coroutines
             implementation(libs.kotlinx.coroutines.core)
+
+            // Serialization
             implementation(libs.kotlinx.serialization)
+
             implementation(libs.multiplatform.settings)
-//            implementation(libs.multiplatform.settings)
         }
 
         androidMain.dependencies {
